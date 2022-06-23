@@ -1,8 +1,15 @@
 import Head from 'next/head'
-import Image from 'next/image'
+import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+  const [joke, setJoke] = useState(null);
+
+  useEffect(() => {
+    fetch('https://v2.jokeapi.dev/joke/Any?safe-mode&type=single')
+      .then(res => res.json())
+      .then(data => setJoke(data.joke))
+  }, [])
   return (
     <div className={styles.container}>
       <Head>
@@ -14,6 +21,7 @@ export default function Home() {
         <h1 className={styles.title}>
           Joke of the day
         </h1>
+        <p>{ joke || '' }</p>
 
       </main>
     </div>
